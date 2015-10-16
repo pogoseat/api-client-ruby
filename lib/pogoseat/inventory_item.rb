@@ -25,6 +25,9 @@ module Pogoseat
       # Remove the "is_new" property, which is only used internally.
       savable_properties.delete("is_new")
 
+      # Also remove the "_id" property, which will cause the update to fail.
+      savable_properties.delete("_id")
+
       if @is_new
         response = self.class.post '/inventory', :body => savable_properties
         if response['status'] and response['status'] == 'error'
