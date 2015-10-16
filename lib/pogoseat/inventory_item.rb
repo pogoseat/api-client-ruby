@@ -27,10 +27,10 @@ module Pogoseat
 
       if @is_new
         response = self.class.post '/inventory', :body => savable_properties
-        self.class.check_response response
-        if defined? response['status'] and response['status'] == 'error'
+        if response['status'] and response['status'] == 'error'
           throw response['message']
         end
+        self.class.check_response response
         set_instance_variables response
         @is_new = false
         return true 
