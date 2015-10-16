@@ -37,4 +37,23 @@ describe Pogoseat::InventoryItem do
       expect(Pogoseat::Inventory.all.length).to eq( starting_inv_count )
     end
   end
+
+  describe "updating" do
+    it "should allow me to update an inventory item" do
+      inventory_data = { "price" => 5, "title" => "Test" }
+      new_item = Pogoseat::InventoryItem.new inventory_data
+      new_item.save!
+
+      new_item.title = "New Title"
+      new_item.save!
+
+      # Now, let's fetch inventory items and see if it's updated
+      inventory_items = Pogoseat::Inventory.all
+      expect(inventory_items.count).to eq(1)
+      expect(inventory_items[0].title).to eq("New Title")
+
+      # Finally, let's do some housekeeping...
+      new_item.delete!
+    end
+  end
 end

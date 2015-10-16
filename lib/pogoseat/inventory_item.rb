@@ -35,7 +35,13 @@ module Pogoseat
         @is_new = false
         return true 
       else
-        throw "Updating isn't implemented, yet..."
+        response = self.class.put "/inventory/#{@uuid}", :body => savable_properties
+        print response['status']
+        if response['status'] and response['status'] == "error"
+          throw response['message']
+        end
+        self.class.check_response response
+        return true
       end
     end
 
